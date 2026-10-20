@@ -1,0 +1,15 @@
+.DS_Store
+**/.ipynb_checkpoints/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+
+# Fontes locais e textos extraídos: não publicar no GitHub.
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
