@@ -1,0 +1,2 @@
+﻿versao_experimento;abordagem_avaliada;idioma;comparacao_texto;versao_spacy;modelo_pre_treinado_comparado;versao_modelo_pre_treinado;quantidade_casos;tipo_avaliacao;origem_anotacoes;revisao_humana_anotacoes;quantidade_padroes
+ner_basico_v1;Regras com EntityRuler;pt;LOWER;3.8.16;core_news_sm;3.8.0;8;Piloto com exemplos sintéticos;Propostas com apoio de IA;Não registrada;12

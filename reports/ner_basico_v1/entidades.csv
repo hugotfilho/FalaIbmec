@@ -1,0 +1,21 @@
+﻿caso;origem;inicio;fim;texto_entidade;rotulo
+1;referencia;18;27;matrícula;SERVICO_ACADEMICO
+1;referencia;31;36;Ibmec;INSTITUICAO
+1;previsao;18;27;matrícula;SERVICO_ACADEMICO
+1;previsao;31;36;Ibmec;INSTITUICAO
+2;referencia;3;13;Faria Lima;UNIDADE
+2;referencia;31;42;carteirinha;SERVICO_ACADEMICO
+2;previsao;3;13;Faria Lima;UNIDADE
+2;previsao;31;42;carteirinha;SERVICO_ACADEMICO
+3;referencia;35;43;estágios;SERVICO_ACADEMICO
+3;previsao;35;43;estágios;SERVICO_ACADEMICO
+4;referencia;21;31;matriculas;SERVICO_ACADEMICO
+4;referencia;35;40;IBMEC;INSTITUICAO
+4;previsao;21;31;matriculas;SERVICO_ACADEMICO
+4;previsao;35;40;IBMEC;INSTITUICAO
+5;referencia;18;27;matrícula;SERVICO_ACADEMICO
+5;referencia;32;43;carteirinha;SERVICO_ACADEMICO
+5;previsao;18;27;matrícula;SERVICO_ACADEMICO
+5;previsao;32;43;carteirinha;SERVICO_ACADEMICO
+6;previsao;10;19;matricula;SERVICO_ACADEMICO
+7;previsao;3;10;estagio;SERVICO_ACADEMICO
