@@ -1,78 +1,115 @@
-# Chatbot FAQ do Ibmec — Projeto de PLN
+# Chatbot FAQ do Ibmec | Projeto de PLN
 
-Assistente acadêmico que consulta documentos oficiais do Ibmec para responder a dúvidas em linguagem natural, com indicação das fontes.
+Projeto de um assistente para responder a dúvidas acadêmicas de alunos de graduação do Ibmec Faria Lima, consultando documentos institucionais e indicando as fontes utilizadas.
 
 **Curso:** Ciência de Dados e Inteligência Artificial  
 **Integrantes:** Caio Jardim e Hugo Toledo  
-**Unidade:** a definir.
+**Unidade:** Ibmec Faria Lima, São Paulo
 
-## Status
+## Estado atual
 
-Estrutura inicial e proposta em elaboração. A aplicação e os experimentos ainda não foram implementados. Não há resultados de avaliação disponíveis.
+A extração dos textos, a curadoria do corpus e o experimento inicial de reconhecimento de entidades foram concluídos. A busca semântica, o RAG e a interface ainda serão implementados.
+
+A entrega inicial reúne a [proposta do projeto](reports/proposta.md) e o [experimento básico de NER](notebooks/03_ner_basico.ipynb), conforme a adaptação de escopo autorizada pelo professor.
 
 ## Objetivo e escopo
 
-Facilitar a consulta a orientações acadêmicas, inicialmente para uma unidade e um conjunto limitado de documentos. O escopo inclui acesso aos sistemas, documentos e serviços acadêmicos, conforme a cobertura das fontes selecionadas.
+Facilitar a consulta a orientações sobre matrícula, acesso aos sistemas, biblioteca, estágio e outros assuntos cobertos pelas fontes selecionadas. O protótipo deverá apresentar referências e informar quando os documentos não forem suficientes para responder.
 
-O protótipo não consultará notas, pagamentos ou dados pessoais nos sistemas internos. Não é um canal oficial de atendimento do Ibmec.
+O projeto não é um canal oficial de atendimento do Ibmec e não acessará notas, pagamentos ou dados pessoais nos sistemas internos.
 
-## Técnicas de PLN
+## Preparação dos dados
 
-- **Transformer pré-treinado:** produzir embeddings das perguntas e dos documentos para busca semântica. Transformers são redes neurais; não está previsto treinar uma rede separada do zero.
-- **NER:** identificar entidades úteis, como instituições e unidades. Cursos e disciplinas poderão exigir adaptação com regras ou listas de nomes. A abordagem será escolhida e avaliada durante os experimentos.
-- **RAG:** recuperar trechos e fornecê-los a um modelo de linguagem para elaborar uma resposta com fontes. Quando não houver suporte nos documentos, informar a limitação.
+A coleta inicial reuniu quatro PDFs e 14 arquivos HTML institucionais. A extração produziu 130 registros, organizados por página de PDF, região mensal do calendário ou arquivo HTML.
 
-A análise de sentimentos e o treinamento de uma rede separada foram retirados do escopo após a orientação do professor de utilizar apenas os componentes necessários. O alinhamento dos marcos do cronograma com esse escopo deve ser confirmado pelo grupo.
+A versão 3 do corpus contém **89 registros de nove fontes**, com **41 exclusões documentadas**. Todos os registros originais foram contabilizados. A curadoria incluiu:
 
-## Fluxo previsto
+- Retirada de capas, divisórias, sumários e determinados conteúdos redundantes.
+- Separação de conteúdos com divergências, prazos específicos e informações cuja atualidade não foi confirmada.
+- Registro de títulos, referências, abrangência e limitações das fontes.
+- Normalização de espaços em uma coluna separada, preservando os textos originais.
 
-Pergunta → identificação de entidades → seleção das fontes aplicáveis → busca semântica → resposta fundamentada e fontes.
+A curadoria não confirma a vigência de todas as regras acadêmicas. As limitações de edição, período e unidade permanecem documentadas para orientar o uso dos dados.
 
-As entidades só devem restringir a busca quando sua identificação e os metadados dos documentos forem confiáveis. Ambiguidades de curso ou unidade podem exigir esclarecimento ao usuário.
+Os materiais originais e os textos processados são mantidos localmente e ignorados pelo Git. A reprodução das etapas de extração e curadoria exige esses arquivos.
 
-## Organização
+## Notebooks
 
-```text
-projeto-pln-chatbotFAQ-ibmec/
-├── README.md
-├── data/
-│   ├── README.md
-│   ├── raw/          # Materiais originais; ignorados pelo Git
-│   ├── processed/    # Textos e trechos preparados; ignorados pelo Git
-│   └── evaluation/   # Perguntas e anotações revisadas para avaliação
-├── notebooks/       # Experimentos de preparação, Transformer e NER
-├── src/             # Implementação futura do chatbot
-└── reports/
-    ├── proposta.md
-    └── plano-de-trabalho.md
+| Notebook | Conteúdo |
+| --- | --- |
+| [01_extracao_textos.ipynb](notebooks/01_extracao_textos.ipynb) | Extração e inspeção de textos de PDFs e HTMLs. |
+| [02_revisao_corpus.ipynb](notebooks/02_revisao_corpus.ipynb) | Revisão das fontes, exclusões, sobreposições e consolidação do corpus. |
+| [03_ner_basico.ipynb](notebooks/03_ner_basico.ipynb) | Observação do modelo pré-treinado, regras de entidades, avaliação e reprodução dos resultados. |
+
+## Experimento básico de NER
+
+Primeiro observamos o comportamento do modelo em português `pt_core_news_sm`. Em seguida, criamos um pipeline separado com `spacy.blank("pt")` e `EntityRuler`, usando 12 padrões e comparação sem distinção entre maiúsculas e minúsculas.
+
+| Categoria do projeto | Exemplos |
+| --- | --- |
+| `INSTITUICAO` | Ibmec |
+| `UNIDADE` | Faria Lima |
+| `SERVICO_ACADEMICO` | matrícula, estágio, carteirinha e variantes previstas nas regras |
+
+A categoria `SERVICO_ACADEMICO` representa termos do domínio acadêmico definidos pelo projeto. O grupo não treinou um modelo estatístico de NER.
+
+### Resultados do piloto
+
+A abordagem avaliada foi o **EntityRuler**, em oito frases sintéticas, com correspondência exata da posição dos caracteres e do rótulo da entidade.
+
+| Métrica global (micro) | Resultado |
+| --- | ---: |
+| Verdadeiros positivos | 9 |
+| Falsos positivos | 2 |
+| Falsos negativos | 0 |
+| Precisão | 81,82% |
+| Revocação | 100,00% |
+| F1 | 90,00% |
+
+Os dois falsos positivos ocorreram em “O sistema matricula os alunos automaticamente” e “Eu estagio em uma empresa parceira”. As regras reconheceram formas verbais como serviços acadêmicos, mostrando uma limitação da correspondência literal.
+
+Os exemplos foram elaborados com conhecimento das regras e apoio de IA. Esse piloto não constitui uma avaliação independente nem permite concluir o desempenho em perguntas reais. A revisão humana das anotações ainda não foi registrada.
+
+Os [arquivos do experimento](reports/ner_basico_v1/) incluem padrões, casos, entidades de referência e previstas, métricas e configuração. As previsões salvas foram reproduzidas nos oito casos. Foram utilizados spaCy **3.8.16** e modelo **3.8.0**.
+
+## Execução dos experimentos
+
+Abra os notebooks no Jupyter ou no VS Code e execute as células na ordem. Os notebooks 01 e 02 dependem dos materiais locais em `data/raw/` e dos arquivos gerados em `data/processed/`.
+
+Para o experimento de NER, instale as dependências no ambiente Python utilizado pelo kernel:
+
+```bash
+python -m pip install spacy==3.8.16 jupyter ipykernel
+python -m spacy download pt_core_news_sm-3.8.0 --direct
 ```
 
-## Dados
+O notebook 03 usa exemplos sintéticos e não depende do corpus local. A célula de exportação protege os resultados existentes e interrompe a gravação quando os CSVs já estão presentes. Para conferir os resultados versionados, utilize a célula final de reprodução; para gerar uma nova exportação, escolha outra pasta de resultados.
 
-Consulte [as fontes candidatas e as orientações de coleta](data/README.md). Antes de incluir um documento, registrar título, URL, unidade, data, versão e condições de uso. Materiais públicos não serão tratados automaticamente como conteúdo livre para redistribuição.
+Ainda não há aplicação de chatbot executável.
 
-## Avaliação prevista
+## Desenvolvimento previsto
 
-- Busca: Recall@3, usando perguntas com trechos relevantes previamente identificados.
-- NER: precisão, revocação e F1 por tipo de entidade, considerando os limites e rótulos corretos.
-- Respostas: revisão da correção, apoio nas fontes e indicação adequada da ausência de informação.
-- Comparação: busca semântica versus uma abordagem lexical simples, quando viável.
+O fluxo planejado é:
 
-Perguntas de avaliação serão mantidas separadas dos exemplos utilizados para ajustar regras e parâmetros. Resultados serão registrados somente após a execução dos experimentos.
+**Pergunta → reconhecimento de entidades → recuperação de trechos → geração de resposta com fontes.**
 
-## Execução
+- **Busca semântica:** embeddings de um Transformer pré-treinado, com Sentence Transformers.
+- **RAG:** fornecimento dos trechos recuperados a um modelo de linguagem, ainda a selecionar.
+- **Interface:** protótipo com Streamlit.
+- **Avaliação:** Recall@3 para recuperação e revisão de correção, sustentação documental e referências das respostas. Quando viável, comparação com uma busca lexical simples.
 
-Ainda não há aplicação executável. As dependências e instruções serão adicionadas quando os primeiros experimentos forem implementados e verificados.
+As entidades só deverão restringir a recuperação quando o reconhecimento e os metadados forem confiáveis. A análise de sentimentos e o treinamento de uma rede neural separada do zero não fazem parte do escopo aprovado.
 
-## Próximos passos
+## Próximas etapas
 
-1. Definir a unidade e os assuntos iniciais.
-2. Revisar a proposta e alinhar as entregas com o professor.
-3. Selecionar documentos e registrar suas condições de uso.
-4. Extrair os textos e preparar perguntas de avaliação.
-5. Implementar e avaliar a busca com Transformer e o NER.
-6. Integrar o RAG e a interface.
+1. Registrar a revisão humana das anotações e ampliar a avaliação do NER com casos independentes.
+2. Dividir os documentos em trechos, preservando as referências e os metadados.
+3. Implementar e avaliar a recuperação por similaridade semântica.
+4. Integrar o modelo de linguagem e a interface.
+5. Avaliar as respostas e documentar os resultados e as limitações.
 
-## Transparência
+## Transparência e uso das fontes
 
-A documentação inicial foi elaborada com apoio de IA. O grupo deve revisar o material, registrar as ferramentas utilizadas durante o desenvolvimento e ser capaz de explicar o código e as decisões técnicas.
+O projeto utiliza apoio de IA na programação, documentação e elaboração de exemplos. Os integrantes são responsáveis por revisar as entregas e explicar o código e as decisões adotadas.
+
+O acesso público a um documento não implica autorização automática para redistribuí-lo. Os materiais institucionais e os textos extraídos permanecem locais até a análise das condições de uso.
