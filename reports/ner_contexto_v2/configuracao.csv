@@ -1,0 +1,2 @@
+﻿versao;spacy;modelo;versao_modelo;comparacao_texto;termos_filtrados;classe_descartada;pronome_anterior_descartado;alinhamento;quantidade_casos;tipo_avaliacao
+ner_contexto_v2;3.8.16;pt_core_news_sm;3.8.0;LOWER;matricula|estagio;VERB;eu;strict;8;Exemplos sintéticos

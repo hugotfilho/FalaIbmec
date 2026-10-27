@@ -1,0 +1,6 @@
+﻿id_pergunta;pergunta;referencias;recuperados;similaridades;recall_3;observacao
+p01;Como enviar a documentação de estágio pelo SIA?;"[""r086_t003""]";"[""r086_t003"", ""r086_t004"", ""r086_t001""]";[0.8696211576461792, 0.822748601436615, 0.7462199926376343];1.0;
+p02;Como acessar os livros da Minha Biblioteca?;"[""r065_t001""]";"[""r065_t001"", ""r089_t001"", ""r016_t002""]";[0.7663691639900208, 0.6476099491119385, 0.6350792646408081];1.0;
+p03;Como solicitar a carteirinha de estudante?;"[""r085_t007"", ""r085_t008""]";"[""r085_t007"", ""r085_t008"", ""r029_t002""]";[0.7174216508865356, 0.6403378248214722, 0.6044043898582458];1.0;
+p04;Como é calculada a média final das disciplinas?;[];"[""r022_t006"", ""r022_t005"", ""r022_t004""]";[0.6922833323478699, 0.6659331917762756, 0.6295783519744873];;Fórmula não localizada no corpus v3. As páginas de avaliações foram excluídas integralmente por divergência sobre AS. A divergência registrada não é sobre a fórmula da média.
+p05;O que são atividades acadêmicas complementares?;"[""r021_t002"", ""r061_t001""]";"[""r061_t001"", ""r021_t002"", ""r062_t001""]";[0.7921046018600464, 0.7543996572494507, 0.6806586980819702];1.0;

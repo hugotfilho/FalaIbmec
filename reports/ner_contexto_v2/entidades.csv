@@ -1,0 +1,31 @@
+﻿caso;origem;inicio;fim;texto_entidade;rotulo
+1;referencia;20;31;carteirinha;SERVICO_ACADEMICO
+1;referencia;35;40;Ibmec;INSTITUICAO
+1;v1;20;31;carteirinha;SERVICO_ACADEMICO
+1;v1;35;40;Ibmec;INSTITUICAO
+1;v2;20;31;carteirinha;SERVICO_ACADEMICO
+1;v2;35;40;Ibmec;INSTITUICAO
+2;referencia;12;19;estágio;SERVICO_ACADEMICO
+2;referencia;23;33;Faria Lima;UNIDADE
+2;v1;12;19;estágio;SERVICO_ACADEMICO
+2;v1;23;33;Faria Lima;UNIDADE
+2;v2;12;19;estágio;SERVICO_ACADEMICO
+2;v2;23;33;Faria Lima;UNIDADE
+3;referencia;24;34;matriculas;SERVICO_ACADEMICO
+3;referencia;37;45;estágios;SERVICO_ACADEMICO
+3;v1;24;34;matriculas;SERVICO_ACADEMICO
+3;v1;37;45;estágios;SERVICO_ACADEMICO
+3;v2;24;34;matriculas;SERVICO_ACADEMICO
+3;v2;37;45;estágios;SERVICO_ACADEMICO
+4;referencia;18;27;matrícula;SERVICO_ACADEMICO
+4;v1;18;27;matrícula;SERVICO_ACADEMICO
+4;v2;18;27;matrícula;SERVICO_ACADEMICO
+5;v1;12;21;matricula;SERVICO_ACADEMICO
+6;v1;10;17;estagio;SERVICO_ACADEMICO
+6;v2;10;17;estagio;SERVICO_ACADEMICO
+8;referencia;3;15;carteirinhas;SERVICO_ACADEMICO
+8;referencia;19;24;IBMEC;INSTITUICAO
+8;v1;3;15;carteirinhas;SERVICO_ACADEMICO
+8;v1;19;24;IBMEC;INSTITUICAO
+8;v2;3;15;carteirinhas;SERVICO_ACADEMICO
+8;v2;19;24;IBMEC;INSTITUICAO
