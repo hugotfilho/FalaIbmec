@@ -8,7 +8,7 @@ Projeto de um assistente para responder a dúvidas acadêmicas de alunos de grad
 
 ## Estado atual
 
-A extração dos textos, a curadoria do corpus e o experimento inicial de reconhecimento de entidades foram concluídos. A busca semântica, o RAG e a interface ainda serão implementados.
+A extração dos textos, a curadoria do corpus e o experimento inicial de reconhecimento de entidades foram concluídos. O RAG e a interface ainda serão implementados.
 
 A entrega inicial reúne a [proposta do projeto](reports/proposta.md) e o [experimento básico de NER](notebooks/03_ner_basico.ipynb), conforme a adaptação de escopo autorizada pelo professor.
 
