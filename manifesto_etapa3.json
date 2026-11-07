@@ -1,0 +1,12 @@
+{
+  "data/processed/trechos_v3.csv": "c5b4c8bde2bab322f66621074e04c50f9416451d14333edde1d44a7489ffd28b",
+  "data/processed/embeddings_trechos_v3.npy": "1ebabe1a3ea89d3d255eb995a4554adf368ff6384efc20ff2e6eb3021881acc5",
+  "data/processed/indice_embeddings_v3.csv": "174ad88b9eda669615a4375e6e443822bf97e9c136c9f2529c141bdc71eda4b6",
+  "data/processed/configuracao_trechos_v3.csv": "dce7748ccf61234c15e9a85f767bf25fce5c37a178e07ea14799db9a15d54f4a",
+  "src/rag.py": "89e8b2e06d9901d698b9b0eb72ac06eba9d15a7d7649a9c134eca16edf78d2b8",
+  "src/fontes.py": "321a368e2738019fc55e9587317d27661a96debd29289bb3df37126a516e4f68",
+  "requirements-colab.txt": "d4c59e01d7c0a8d4e025e820b7a5abd4f72a50a05e6c5f3a6c8e3f981492b931",
+  "reports/etapa3/fechamento.json": "5c32fe9ea13175b3ad59e29aee18133e09b56680c69990364fb26360f57985fc",
+  "LEIA-ME_ETAPA3.md": "4d5095f69c0c4401eb9bb17bba11b4ad36657a9556f9370fdf4512c2af72fcef",
+  "base_rag_v3.zip": "f516d794ffd4a2c8847b4c9a739f59cdc452eef4f5afd95779ca84bf72cb330d"
+}

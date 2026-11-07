@@ -1,0 +1,14 @@
+{
+  "data_importacao_utc": "2026-11-07T22:29:56.824683+00:00",
+  "originais_colab_sha256": {
+    "05_integracao_rag.ipynb": "7088840c4fc817e857ddb8b593507f0664825de293411fd38bd08c7f3f784a1c",
+    "06_interface_chatbot.ipynb": "72ad85c8264edd989e75f05c9c41436ccd74b16621d1effb07c05209dda4f70a"
+  },
+  "notebook_05": "Reorganizado para integração e comparação de contexto com base v3 e Qwen 7B em 4 bits. Saídas vazias; execução integral em GPU ainda pendente.",
+  "notebook_06": "Cópia de execução reorganizada, sem saídas inventadas. Original executado preservado em ZIP.",
+  "notebook_06_sha256": "d7e1780858fae05baa0becdb91bb5bbee7b9ce2b850c54dc694839170b6da728",
+  "backup": "reports/etapa3/notebooks_originais_colab.zip",
+  "execucao_gpu_local": "Não realizada. Inferência da sessão original consta nos registros exportados.",
+  "notebook_05_sha256": "ea51f11ea560cee57409c86bf60b72f9ce52b9a23a1c5d37d0f06df5f977ba80",
+  "backup_05_antes_revisao": "reports/etapa3/notebook05_antes_revisao_20261107T223659Z.zip"
+}

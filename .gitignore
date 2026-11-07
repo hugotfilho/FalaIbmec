@@ -13,3 +13,9 @@ data/raw/*
 !data/raw/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
+
+# Pacotes locais e registro integral do Colab contêm textos das fontes.
+/base_rag_v3.zip
+/reports/dados_rag_colab.zip
+/reports/etapa3/*.zip
+/reports/etapa3/fechamento.json
