@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FalaIbmec · Apresentação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #082b59; --navy-2: #0f3a73; --azul: #1c64d8; --azul-claro: #83c6ff;
+  --fundo: #f3f7fc; --branco: #ffffff; --borda: #dce6f3;
+  --tinta: #173354; --tinta-2: #4f6785; --tinta-3: #7b8da5;
+  --ambar: #c98a0b; --ambar-fundo: #fff6e0; --violeta: #8a4fd1;
+  --erro: #b4232c; --ok: #1d7a46;
+  --fonte: "Manrope", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #0b1426; font-family: var(--fonte); color: var(--tinta); }
+body { overflow: hidden; }
+
+/* Palco 16:9 escalado para a janela */
+#palco { position: absolute; left: 50%; top: 50%; width: 1280px; height: 720px; transform-origin: center center; }
+.slide {
+  position: absolute; inset: 0; background: var(--fundo); padding: 54px 64px 46px;
+  opacity: 0; visibility: hidden; transition: opacity .35s ease;
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.slide.ativo { opacity: 1; visibility: visible; }
+.slide.escuro { background: var(--navy); color: #fff; }
+
+.rotulo { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--azul); margin: 0 0 10px; }
+.escuro .rotulo { color: var(--azul-claro); }
+h1, h2, h3 { margin: 0; letter-spacing: -0.8px; }
+h2 { font-size: 38px; font-weight: 800; line-height: 1.12; color: var(--navy); max-width: 1000px; }
+.escuro h2 { color: #fff; }
+h3 { font-size: 19px; font-weight: 800; color: var(--navy); letter-spacing: -0.3px; }
+p { margin: 0; line-height: 1.55; }
+.sub { font-size: 18px; color: var(--tinta-2); margin-top: 10px; max-width: 980px; }
+.corpo { flex: 1; display: grid; gap: 22px; margin-top: 26px; min-height: 0; }
+.cartao { background: var(--branco); border: 1px solid var(--borda); border-radius: 18px; padding: 20px 22px; }
+.cartao p { font-size: 15px; color: var(--tinta-2); }
+.nota-rodape { font-size: 12.5px; color: var(--tinta-3); margin-top: 12px; }
+.escuro .nota-rodape { color: #9fb6d6; }
+.destaque { color: var(--azul); }
+.pilula { display: inline-block; padding: 4px 11px; border-radius: 999px; font-size: 12.5px; font-weight: 700; }
+.pilula.azul { background: #e7f0ff; color: #154a9e; }
+.pilula.ambar { background: var(--ambar-fundo); color: #7a4a00; }
+.pilula.cinza { background: #edf1f6; color: var(--tinta-2); }
+.pilula.verde { background: #e3f4ea; color: var(--ok); }
+.pilula.vermelho { background: #fbe9ea; color: var(--erro); }
+.numero { font-size: 44px; font-weight: 800; letter-spacing: -1.5px; color: var(--navy); line-height: 1; }
+.numero small { font-size: 18px; font-weight: 700; color: var(--tinta-2); letter-spacing: 0; }
+.legenda-num { font-size: 13.5px; color: var(--tinta-2); margin-top: 6px; line-height: 1.4; }
+
+/* Capa */
+.capa { display: grid; grid-template-columns: 1.25fr 1fr; align-items: center; height: 100%; gap: 30px; }
+.capa h1 { font-size: 86px; font-weight: 800; letter-spacing: -3.5px; line-height: 1; margin: 6px 0 18px; }
+.capa h1 span { color: var(--azul-claro); }
+.capa .tese { font-size: 24px; color: #d6e6fb; line-height: 1.4; max-width: 560px; }
+.capa .meta { margin-top: 34px; font-size: 15px; color: #a9c2e2; line-height: 1.8; }
+.capa .meta strong { color: #fff; }
+.capa img { width: 100%; max-width: 470px; justify-self: center; filter: drop-shadow(0 18px 40px rgba(0,0,0,.35)); }
+
+/* Problema */
+.grade-problema { grid-template-columns: 1.15fr 1fr; }
+.fontes-grade { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.requisitos { display: flex; flex-direction: column; gap: 12px; }
+.requisito { display: flex; gap: 14px; align-items: flex-start; background: var(--navy); color: #fff; border-radius: 16px; padding: 16px 18px; }
+.requisito .n { flex: none; width: 32px; height: 32px; border-radius: 10px; background: var(--azul); display: grid; place-items: center; font-weight: 800; }
+.requisito b { display: block; font-size: 17px; margin-bottom: 3px; }
+.requisito span { font-size: 14px; color: #c8dbf5; line-height: 1.45; }
+.citacao { border-left: 4px solid var(--ambar); background: var(--ambar-fundo); border-radius: 0 14px 14px 0; padding: 14px 16px; font-size: 15px; color: #5f3d00; line-height: 1.5; }
+
+/* RAG */
+.tabela { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+.tabela th, .tabela td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--borda); }
+.tabela th { font-size: 12.5px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--tinta-3); font-weight: 700; }
+.tabela td:first-child { font-weight: 700; color: var(--navy); }
+.tabela tr.realce td { background: #eef5ff; }
+.tabela tr.realce td:first-child { border-radius: 12px 0 0 12px; }
+.tabela tr.realce td:last-child { border-radius: 0 12px 12px 0; }
+.sim { color: var(--ok); font-weight: 800; } .nao { color: var(--erro); font-weight: 800; } .parcial { color: #8a5a00; font-weight: 800; }
+.fluxo-rag { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
+.etapa { flex: 1; background: var(--branco); border: 1px solid var(--borda); border-radius: 16px; padding: 14px 16px; }
+.etapa b { display: block; color: var(--navy); font-size: 16px; }
+.etapa span { font-size: 13.5px; color: var(--tinta-2); line-height: 1.4; }
+.seta { color: var(--azul); font-size: 26px; font-weight: 800; flex: none; }
+
+/* Arquitetura */
+.pipeline { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; position: relative; }
+.no { background: var(--branco); border: 1px solid var(--borda); border-radius: 16px; padding: 14px 14px 16px; position: relative; }
+.no::after { content: "→"; position: absolute; right: -13px; top: 50%; transform: translateY(-50%); color: var(--azul); font-weight: 800; font-size: 18px; background: var(--fundo); line-height: 1; }
+.no:last-child::after { display: none; }
+.no .tag { font-size: 11px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--azul); }
+.no b { display: block; font-size: 15.5px; color: var(--navy); margin: 6px 0 6px; line-height: 1.25; }
+.no span { display: block; font-size: 12.8px; color: var(--tinta-2); line-height: 1.45; }
+.no.chave { background: var(--navy); border-color: var(--navy); }
+.no.chave b { color: #fff; } .no.chave span { color: #c8dbf5; } .no.chave .tag { color: var(--azul-claro); }
+.porques { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.porques .cartao h3 { font-size: 16.5px; margin-bottom: 8px; }
+.porques .cartao p { font-size: 14px; }
+
+/* Vídeo */
+.video-moldura { flex: 1; display: grid; grid-template-columns: 1fr 270px; gap: 20px; margin-top: 18px; min-height: 0; }
+.video-moldura video { width: 100%; height: 100%; object-fit: contain; background: #fff; border-radius: 16px; border: 1px solid var(--borda); }
+.roteiro-demo { display: flex; flex-direction: column; gap: 10px; }
+.roteiro-demo .cartao { padding: 14px 16px; }
+.roteiro-demo .cartao p { font-size: 13.5px; }
+
+/* Métricas */
+.grade-metricas { grid-template-columns: 1fr 1.05fr; }
+.defs { display: flex; flex-direction: column; gap: 0; }
+.def { display: grid; grid-template-columns: 158px 1fr; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--borda); font-size: 13.8px; }
+.def b { color: var(--navy); }
+.def span { color: var(--tinta-2); line-height: 1.45; }
+.def code { font-family: ui-monospace, Menlo, monospace; font-size: 12.5px; background: #edf2f9; padding: 1px 5px; border-radius: 5px; color: var(--navy-2); }
+.tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.tile { background: var(--branco); border: 1px solid var(--borda); border-radius: 16px; padding: 14px 16px; }
+.tile .numero { font-size: 34px; }
+.aviso { display: flex; gap: 10px; align-items: flex-start; background: var(--ambar-fundo); border: 1px solid #f2d7a0; border-radius: 14px; padding: 12px 14px; font-size: 13.5px; color: #6b4300; line-height: 1.45; }
+.aviso b { color: #5a3700; }
+
+/* Gráficos */
+.grafico { width: 100%; height: 100%; display: block; }
+.grafico text { font-family: var(--fonte); }
+.legenda { display: flex; gap: 16px; font-size: 13px; color: var(--tinta-2); align-items: center; flex-wrap: wrap; }
+.legenda i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+#dica { position: fixed; pointer-events: none; background: var(--navy); color: #fff; font-size: 13px; padding: 7px 10px; border-radius: 9px; opacity: 0; transition: opacity .12s; z-index: 50; max-width: 280px; line-height: 1.4; box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+
+/* Comparações */
+.grade-comp { grid-template-columns: 1.08fr 1fr; }
+.mini-comp { display: grid; grid-template-rows: repeat(3, 1fr); gap: 10px; height: 100%; }
+.insight { background: var(--navy); color: #fff; border-radius: 16px; padding: 14px 18px; font-size: 14.5px; line-height: 1.5; }
+.insight b { color: var(--azul-claro); }
+
+/* Erros */
+.grade-erros { grid-template-columns: 1fr 1fr; }
+.erro h3 { display: flex; align-items: center; gap: 10px; }
+.par { display: grid; grid-template-columns: 112px 1fr; gap: 6px 12px; font-size: 14.3px; margin-top: 12px; }
+.par dt { color: var(--tinta-3); font-weight: 700; font-size: 12.5px; text-transform: uppercase; letter-spacing: 1px; padding-top: 2px; }
+.par dd { margin: 0; color: var(--tinta); line-height: 1.45; }
+.limites { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.limites .cartao { padding: 14px 16px; }
+.limites .cartao b { display: block; color: var(--navy); font-size: 14.5px; margin-bottom: 4px; }
+.limites .cartao p { font-size: 13px; }
+
+/* Conclusão */
+.grade-final { grid-template-columns: 1.2fr 1fr; align-items: stretch; }
+.lista-final { display: flex; flex-direction: column; gap: 12px; }
+.item-final { display: flex; gap: 14px; align-items: flex-start; }
+.item-final .n { flex: none; width: 30px; height: 30px; border-radius: 9px; background: rgba(131,198,255,.18); color: var(--azul-claro); display: grid; place-items: center; font-weight: 800; font-size: 14px; }
+.item-final b { color: #fff; font-size: 16.5px; display: block; }
+.item-final span { color: #bcd2ee; font-size: 14px; line-height: 1.45; }
+.proximos { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: 18px; padding: 20px 22px; }
+.proximos h3 { color: #fff; margin-bottom: 12px; }
+.proximos li { color: #d6e6fb; font-size: 14.5px; line-height: 1.5; margin-bottom: 8px; }
+.obrigado { display: flex; align-items: center; gap: 18px; margin-top: 16px; }
+.obrigado img { width: 120px; }
+.obrigado b { font-size: 30px; letter-spacing: -1px; }
+
+/* Interface do apresentador */
+#barra { position: fixed; left: 0; bottom: 0; height: 4px; background: var(--azul); transition: width .3s; z-index: 30; }
+#contador { position: fixed; right: 14px; bottom: 10px; font-size: 12px; color: #8ea3c0; z-index: 30; font-variant-numeric: tabular-nums; }
+#cronometro { position: fixed; left: 14px; bottom: 10px; font-size: 13px; font-weight: 700; color: #8ea3c0; z-index: 30; font-variant-numeric: tabular-nums; display: none; }
+#cronometro.alerta { color: #e0a21b; } #cronometro.estourou { color: #ff6b6b; }
+#notas { position: fixed; left: 0; right: 0; bottom: 0; max-height: 34vh; overflow: auto; background: rgba(8,20,40,.96); color: #e5eefb; padding: 16px 24px 30px; font-size: 16px; line-height: 1.6; z-index: 40; display: none; border-top: 2px solid var(--azul); }
+#notas .tempo { color: var(--azul-claro); font-weight: 800; margin-right: 10px; }
+#ajuda { position: fixed; top: 12px; right: 14px; font-size: 12px; color: #8ea3c0; z-index: 30; transition: opacity .6s; }
+.slide aside.notas { display: none; }
+
+@media print {
+  @page { size: 1280px 720px; margin: 0; }
+  html, body { background: #fff; overflow: visible; height: auto; }
+  #palco { position: static; transform: none !important; width: 1280px; height: auto; }
+  .slide { position: relative; opacity: 1; visibility: visible; height: 720px; page-break-after: always; break-after: page; }
+  #barra, #contador, #cronometro, #notas, #ajuda, #dica { display: none !important; }
+  video { display: none !important; }
+  .poster-impressao { display: block !important; }
+}
+.poster-impressao { display: none; width: 100%; height: 100%; object-fit: contain; border-radius: 16px; border: 1px solid var(--borda); background: #fff; }
+</style>
+</head>
+<body>
+<div id="palco">
+
+<!-- 1. CAPA -->
+<section class="slide escuro" data-tempo="0:15">
+  <div class="capa">
+    <div>
+      <p class="rotulo">Processamento de Linguagem Natural · Projeto final</p>
+      <h1>Fala<span>Ibmec</span></h1>
+      <p class="tese">Um chatbot RAG que responde dúvidas acadêmicas da graduação a partir dos documentos institucionais e mostra de onde veio cada resposta.</p>
+      <p class="meta"><strong>Caio Jardim e Hugo Toledo</strong><br>Ciência de Dados e Inteligência Artificial · Ibmec Faria Lima<br>Novembro de 2026</p>
+    </div>
+    <img src="assets/mascote_falaibmec.png" alt="Mascote do FalaIbmec">
+  </div>
+  <aside class="notas">Boa tarde. Nós somos o Caio e o Hugo, e vamos apresentar o FalaIbmec: um chatbot que responde dúvidas acadêmicas usando os documentos do próprio Ibmec e mostra a fonte de cada resposta.</aside>
+</section>
+
+<!-- 2. PROBLEMA -->
+<section class="slide" data-tempo="0:50">
+  <p class="rotulo">O problema</p>
+  <h2>A informação existe. Encontrá-la é que é difícil.</h2>
+  <div class="corpo grade-problema">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="fontes-grade">
+        <div class="cartao"><div class="numero">110 <small>páginas</small></div><p class="legenda-num">em 3 manuais e guias em PDF, além do calendário acadêmico 2026.2</p></div>
+        <div class="cartao"><div class="numero">14 <small>páginas web</small></div><p class="legenda-num">do site do Ibmec (blog e páginas para alunos), coletadas em HTML</p></div>
+        <div class="cartao"><div class="numero">7 <small>pares</small></div><p class="legenda-num">de páginas com conteúdo sobreposto entre fontes diferentes</p></div>
+        <div class="cartao"><div class="numero">2 <small>versões</small></div><p class="legenda-num">divergentes da regra de elegibilidade para a AS entre manual e guia</p></div>
+      </div>
+      <div class="citacao"><b>Vocabulário diferente:</b> o aluno pergunta como <i>“trancar uma matéria”</i>. O manual chama isso de <i>“exclusão de disciplina”</i>, e reserva “trancamento” para a matrícula inteira.</div>
+    </div>
+    <div class="requisitos">
+      <p style="font-size:14px;font-weight:700;color:var(--tinta-3);text-transform:uppercase;letter-spacing:1.4px">O que o sistema precisa fazer</p>
+      <div class="requisito"><div class="n">1</div><div><b>Responder em linguagem natural</b><span>Entender a pergunta pelo significado, não só por palavra-chave.</span></div></div>
+      <div class="requisito"><div class="n">2</div><div><b>Mostrar de onde veio</b><span>Documento, página, abrangência e o trecho lido, para o aluno conferir.</span></div></div>
+      <div class="requisito"><div class="n">3</div><div><b>Dizer quando não sabe</b><span>Recusar perguntas fora da base ou sobre dados pessoais, em vez de inventar.</span></div></div>
+    </div>
+  </div>
+  <aside class="notas">As regras acadêmicas estão espalhadas: três manuais e guias somam 110 páginas, além do calendário e de 14 páginas web. Encontramos 7 pares de páginas que repetem conteúdo e duas versões diferentes da regra da AS. E o aluno usa outras palavras: diz “trancar matéria”, o manual diz “exclusão de disciplina”. Por isso definimos três requisitos: responder em linguagem natural, mostrar a fonte e saber dizer que não sabe.</aside>
+</section>
+
+<!-- 3. POR QUE RAG -->
+<section class="slide" data-tempo="0:50">
+  <p class="rotulo">Fundamentação</p>
+  <h2>Por que RAG: o modelo consulta antes de responder</h2>
+  <p class="sub">Retrieval-Augmented Generation (Lewis et al., 2020): recuperar trechos relevantes e entregá-los à LLM junto com a pergunta.</p>
+  <div class="corpo" style="grid-template-rows:auto auto;align-content:start;gap:20px">
+    <div class="cartao" style="padding:8px 14px">
+      <table class="tabela">
+        <tr><th>Abordagem</th><th>Conhece os documentos do Ibmec?</th><th>Mostra a fonte?</th><th>Atualiza sem retreinar?</th><th>Custo para o projeto</th></tr>
+        <tr><td>LLM sozinha</td><td class="nao">Não: só o que viu no treino</td><td class="nao">Não</td><td class="nao">Não</td><td>Baixo</td></tr>
+        <tr><td>Fine-tuning</td><td class="parcial">Parcialmente, nos pesos</td><td class="nao">Não</td><td class="nao">Não: novo treino a cada mudança</td><td>Alto: dados e GPU</td></tr>
+        <tr class="realce"><td>RAG</td><td class="sim">Sim: lê os trechos na hora</td><td class="sim">Sim: os trechos usados</td><td class="sim">Sim: basta trocar a base</td><td>Moderado</td></tr>
+      </table>
+    </div>
+    <div class="fluxo-rag">
+      <div class="etapa"><b>1 · Recuperar</b><span>Embedding da pergunta e busca dos trechos mais próximos</span></div><div class="seta">→</div>
+      <div class="etapa"><b>2 · Aumentar</b><span>Os trechos entram no prompt como os únicos documentos permitidos</span></div><div class="seta">→</div>
+      <div class="etapa"><b>3 · Gerar</b><span>A LLM redige a resposta ou recusa se o contexto não basta</span></div>
+    </div>
+  </div>
+  <aside class="notas">Uma LLM sozinha não conhece os documentos do Ibmec e não mostra de onde tirou a resposta. Treinar o modelo com os documentos, o fine-tuning, é caro e precisa ser refeito a cada mudança. O RAG resolve as duas coisas: recupera os trechos relevantes, coloca no prompt e pede que o modelo responda só com base neles. Trocar a base atualiza o sistema sem retreinar.</aside>
+</section>
+
+<!-- 4. DADOS -->
+<section class="slide" data-tempo="0:55">
+  <p class="rotulo">Base documental</p>
+  <h2>Antes do modelo, a curadoria: 130 registros viraram 89</h2>
+  <div class="corpo" style="grid-template-columns:1.25fr 1fr">
+    <div class="cartao" style="display:flex;flex-direction:column">
+      <h3>Registros mantidos em cada versão do corpus</h3>
+      <div style="flex:1;min-height:0;margin-top:6px"><svg id="g-curadoria" class="grafico" role="img" aria-label="Registros por versão do corpus"></svg></div>
+      <p class="nota-rodape">Cada registro é uma página de PDF, uma região mensal do calendário ou uma página HTML. Todos os 130 originais foram contabilizados.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="cartao">
+        <h3 style="margin-bottom:10px">Motivos das 41 exclusões</h3>
+        <svg id="g-motivos" class="grafico" style="height:208px" role="img" aria-label="Motivos das exclusões"></svg>
+      </div>
+      <div class="cartao" style="background:var(--navy);border-color:var(--navy)">
+        <div class="numero" style="color:#fff">280 <small style="color:#bcd2ee">trechos</small></div>
+        <p class="legenda-num" style="color:#c8dbf5">Janelas de 120 tokens com sobreposição de 20, dentro do limite de 128 do Serafim. 9 fontes mantidas.</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notas">Antes de qualquer modelo, a maior parte do trabalho foi decidir o que não entraria. Dos 130 registros extraídos, ficamos com 89, de 9 fontes. As 41 exclusões estão documentadas: capas e sumários, contatos sem atualidade confirmada e as páginas com a divergência sobre a AS. Depois dividimos os registros em 280 trechos de até 120 tokens, com sobreposição de 20, respeitando o limite do modelo de embeddings.</aside>
+</section>
+
+<!-- 5. NER -->
+<section class="slide" data-tempo="0:40">
+  <p class="rotulo">Experimento de NER</p>
+  <h2>Reconhecer termos do domínio com regras, e medir o erro</h2>
+  <div class="corpo" style="grid-template-columns:1fr 1.1fr">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="cartao">
+        <h3 style="margin-bottom:8px">spaCy + EntityRuler · 12 padrões</h3>
+        <p><span class="pilula azul">INSTITUICAO</span> Ibmec &nbsp; <span class="pilula azul">UNIDADE</span> Faria Lima<br><span class="pilula azul" style="margin-top:8px">SERVICO_ACADEMICO</span> matrícula, estágio, carteirinha…</p>
+      </div>
+      <div class="cartao">
+        <h3 style="margin-bottom:8px">O erro que as regras cometem</h3>
+        <p>“O sistema <b style="color:var(--erro)">matricula</b> os alunos” e “Eu <b style="color:var(--erro)">estagio</b> em uma empresa”: verbos reconhecidos como serviço acadêmico.</p>
+        <p style="margin-top:10px"><b style="color:var(--navy)">v2:</b> filtro com a classe gramatical do spaCy e o pronome “eu” antes da palavra.</p>
+      </div>
+      <p class="nota-rodape" style="margin-top:0">8 frases sintéticas, escritas conhecendo as regras e com apoio de IA. Não estima desempenho geral. O NER não participa do RAG.</p>
+    </div>
+    <div class="cartao" style="display:flex;flex-direction:column">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h3>Métricas micro, v1 × v2</h3>
+        <div class="legenda"><span><i style="background:var(--ambar)"></i>v1 regras</span><span><i style="background:var(--azul)"></i>v2 com filtro</span></div>
+      </div>
+      <div style="flex:1;min-height:0;margin-top:8px"><svg id="g-ner" class="grafico" role="img" aria-label="Precisão, revocação e F1 do NER"></svg></div>
+      <p class="nota-rodape">Falsos positivos: 2 → 1. Verdadeiros positivos: 9 nas duas versões. Falsos negativos: 0.</p>
+    </div>
+  </div>
+  <aside class="notas">Fizemos também um NER por regras, com 12 padrões em três categorias. A precisão da primeira versão foi 81,8%, porque as regras confundiam verbo com substantivo: “o sistema matricula”. Um filtro gramatical subiu a precisão para 90% e o F1 de 90 para 94,7%. São só 8 frases sintéticas, então isso mostra o tipo de erro, não o desempenho geral. O NER ficou como experimento separado e não filtra a busca.</aside>
+</section>
+
+<!-- 6. ARQUITETURA -->
+<section class="slide" data-tempo="1:15">
+  <p class="rotulo">Arquitetura</p>
+  <h2>Da pergunta à resposta com fonte</h2>
+  <div class="corpo" style="grid-template-rows:auto auto 1fr;gap:16px">
+    <div class="pipeline">
+      <div class="no"><div class="tag">Entrada</div><b>Pergunta</b><span>Texto livre do aluno, uma pergunta por mensagem</span></div>
+      <div class="no"><div class="tag">Embedding</div><b>Serafim 100M</b><span>Sentence Transformers, vetor de 768 dimensões normalizado</span></div>
+      <div class="no"><div class="tag">Busca</div><b>Top 3 por similaridade</b><span>Produto escalar com NumPy, igual ao cosseno com vetores normalizados</span></div>
+      <div class="no chave"><div class="tag">Contexto</div><b>Focado</b><span>Só os trechos do mesmo registro do 1º colocado</span></div>
+      <div class="no"><div class="tag">Geração</div><b>Qwen2.5-7B-Instruct</b><span>4 bits NF4, sem amostragem, até 384 tokens</span></div>
+      <div class="no"><div class="tag">Saída</div><b>Resposta + fontes</b><span>Fontes vindas dos metadados, não da LLM</span></div>
+    </div>
+    <div class="cartao" style="display:grid;grid-template-columns:220px 1fr;gap:22px;align-items:center;padding:18px 24px">
+      <h3 style="font-size:20px">Por que Serafim</h3>
+      <p style="font-size:15.5px">Encoder de sentenças treinado para <b style="color:var(--navy)">recuperação de informação em português</b>. Perguntas e trechos viram vetores de 768 dimensões e são comparados pelo significado, e não pela coincidência de palavras. Roda pela biblioteca Sentence Transformers, sem GPU, e cabe no limite de 128 tokens dos nossos trechos.</p>
+    </div>
+    <div class="cartao" style="display:flex;flex-direction:column;justify-content:center;gap:12px;padding:16px 22px">
+      <h3 style="font-size:16.5px">Contexto focado na prática: “Como é calculada a nota final?”</h3>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr) auto;gap:12px;align-items:center">
+        <div style="border:2px solid var(--azul);border-radius:12px;padding:10px 12px;font-size:13.5px"><b style="color:var(--navy)">1º · 0,74</b> &nbsp;Fórmula da média final<br><span style="color:var(--tinta-3)">Guia do Aluno, p. 4</span> &nbsp;<span class="pilula verde">enviado</span></div>
+        <div style="border:1px dashed #b9c6d8;border-radius:12px;padding:10px 12px;font-size:13.5px;color:var(--tinta-3)"><b>2º · 0,63</b> &nbsp;Coeficiente de rendimento (CR)<br>Manual, outro registro &nbsp;<span class="pilula cinza">descartado</span></div>
+        <div style="border:1px dashed #b9c6d8;border-radius:12px;padding:10px 12px;font-size:13.5px;color:var(--tinta-3)"><b>3º · 0,63</b> &nbsp;Coeficiente de rendimento (CR)<br>Manual, outro registro &nbsp;<span class="pilula cinza">descartado</span></div>
+        <div style="font-size:13.5px;color:var(--tinta-2);max-width:190px;line-height:1.4">Com os 3 trechos, o modelo <b style="color:var(--erro)">recusou</b>. Só com a fórmula, <b style="color:var(--ok)">acertou</b>.</div>
+      </div>
+    </div>
+  </div>
+  <aside class="notas">O fluxo tem seis passos. A pergunta vira um vetor de 768 dimensões com o Serafim, um modelo de embeddings para português. Buscamos os 3 trechos mais próximos. Dos três, ficamos só com os do mesmo registro do primeiro colocado, o contexto focado. O Qwen 7B, quantizado em 4 bits para caber na GPU do Colab, gera a resposta. As fontes exibidas vêm dos metadados, não do modelo. Escolhemos o Serafim porque é um modelo treinado para recuperação em português: ele compara pelo significado, não pela palavra exata. Embaixo, o exemplo do contexto focado: dos três candidatos para a nota final, só a fórmula vai para o modelo.</aside>
+</section>
+
+<!-- 7. DEMO -->
+<section class="slide" data-tempo="1:00" data-video="1">
+  <p class="rotulo">Demonstração</p>
+  <h2>FalaIbmec funcionando</h2>
+  <div class="video-moldura">
+    <div style="min-height:0">
+      <video id="video-demo" src="assets/demo_falaibmec.mp4" poster="assets/demo_capa.jpg" muted playsinline controls preload="auto"></video>
+      <img class="poster-impressao" src="assets/demo_capa.jpg" alt="Captura da interface FalaIbmec">
+    </div>
+    <div class="roteiro-demo">
+      <div class="cartao"><span class="pilula azul">Regra acadêmica</span><p style="margin-top:6px">Média final: fórmula com a fonte Guia do Aluno, p. 4, Faria Lima</p></div>
+      <div class="cartao"><span class="pilula azul">Procedimento</span><p style="margin-top:6px">Carteirinha e documentação de estágio: passos no SIA</p></div>
+      <div class="cartao"><span class="pilula ambar">Dado pessoal</span><p style="margin-top:6px">“Qual foi minha nota da AP1 ontem?”: recusa e aviso no painel de fontes</p></div>
+      <p class="nota-rodape" style="margin-top:2px">Gravado na v2 (versão final) no Google Colab, GPU T4, com o Qwen 7B em execução real.</p>
+    </div>
+  </div>
+  <aside class="notas">Aqui está o FalaIbmec rodando no Colab. Na média final, ele responde com a fórmula e o painel mostra o Guia do Aluno, página 4, com abrangência Faria Lima. Na carteirinha e no estágio, ele segue os passos do documento. Na pergunta sobre a minha nota, ele recusa, e o painel avisa que os trechos foram consultados, mas não sustentam uma resposta. As fontes vêm dos metadados, não são escritas pelo modelo.</aside>
+</section>
+
+<!-- 8. MÉTRICAS -->
+<section class="slide" data-tempo="1:10">
+  <p class="rotulo">Avaliação · piloto da v1 (protótipo inicial)</p>
+  <h2>Métricas separadas por etapa: busca, contexto e geração</h2>
+  <div class="corpo grade-metricas">
+    <div class="cartao" style="padding:10px 20px">
+      <div class="defs">
+        <div class="def"><b>Recall@3</b><span>Grupos de referência presentes entre os 3 candidatos. <code>grupos cobertos / grupos</code></span></div>
+        <div class="def"><b>Cobertura do contexto</b><span>A mesma conta, mas só com os trechos que chegaram ao gerador.</span></div>
+        <div class="def"><b>Correção</b><span>A resposta atende à pergunta sem erro ou omissão essencial.</span></div>
+        <div class="def"><b>Sustentação</b><span>Cada afirmação está apoiada nos trechos enviados.</span></div>
+        <div class="def"><b>Recusa correta</b><span>Recusou quando a base não tem a informação.</span></div>
+        <div class="def" style="border-bottom:0"><b>Recusa indevida</b><span>Recusou quando a resposta estava na base.</span></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="tiles">
+        <div class="tile"><div class="numero">4/4</div><p class="legenda-num">Recall@3 e cobertura do contexto</p></div>
+        <div class="tile"><div class="numero">4/4</div><p class="legenda-num">corretas e sustentadas (revisão assistida por IA)</p></div>
+        <div class="tile"><div class="numero">4/4</div><p class="legenda-num">recusas corretas, com 0/4 indevidas</p></div>
+      </div>
+      <div class="cartao" style="flex:1;display:flex;flex-direction:column;padding:14px 18px">
+        <h3 style="font-size:16px">Tempo por pergunta, busca + geração (Kaggle, T4)</h3>
+        <div style="flex:1;min-height:0"><svg id="g-tempo" class="grafico" role="img" aria-label="Tempo por pergunta"></svg></div>
+      </div>
+      <div class="aviso"><span>⚠</span><span><b>8 perguntas de desenvolvimento</b> (4 com resposta e 4 sem), incluindo exemplos usados nos ajustes. A revisão das respostas teve assistência de IA. <b>Não representa a precisão geral do chatbot.</b></span></div>
+    </div>
+  </div>
+  <aside class="notas">Avaliamos cada etapa separadamente. Recall@3 mede se a busca encontrou o trecho certo, a cobertura mede se ele chegou ao gerador, e correção e sustentação avaliam a resposta. Também medimos recusas corretas e indevidas. No piloto, as quatro perguntas com resposta foram recuperadas e respondidas corretamente, e as quatro sem resposta foram recusadas. As respostas levaram em média 7 segundos e as recusas cerca de 1,3. Mas são só 8 perguntas, que conhecíamos durante os ajustes, e a revisão teve apoio de IA. Então isso descreve o piloto, não a precisão geral.</aside>
+</section>
+
+<!-- 9. COMPARAÇÕES -->
+<section class="slide" data-tempo="1:15">
+  <p class="rotulo">Comparações · v2 (versão final)</p>
+  <h2>O contexto focado evitou a recusa indevida, e a similaridade não basta para recusar</h2>
+  <div class="corpo grade-comp">
+    <div class="cartao" style="display:flex;flex-direction:column;padding:16px 20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+        <h3 style="font-size:16.5px">Contexto amplo × focado, 11 perguntas</h3>
+        <div class="legenda"><span><i style="background:var(--ambar)"></i>Amplo (top 3)</span><span><i style="background:var(--azul)"></i>Focado</span></div>
+      </div>
+      <div style="flex:1;min-height:0;margin-top:6px"><svg id="g-amplo" class="grafico" role="img" aria-label="Comparação entre contexto amplo e focado"></svg></div>
+      <p class="nota-rodape" style="margin-top:4px">Mesma sessão e mesmo modelo, uma execução por pergunta. A recusa foi detectada pelo texto; a correção das demais respostas não foi revisada. A recusa indevida do amplo é a média final. A 1ª chamada do amplo (carteirinha) levou 15,2 s; sem ela, a diferença de tempo cai para cerca de 0,9 s.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="cartao" style="flex:1;display:flex;flex-direction:column;padding:16px 20px">
+        <h3 style="font-size:16.5px">Similaridade do 1º trecho, por tipo de pergunta</h3>
+        <div class="legenda" style="margin-top:6px"><span><i style="background:var(--azul)"></i>Com resposta na base</span><span><i style="background:var(--violeta)"></i>Dado pessoal</span><span><i style="background:var(--ambar)"></i>Fora da base</span></div>
+        <div style="flex:1;min-height:0"><svg id="g-sim" class="grafico" role="img" aria-label="Similaridade do primeiro trecho por tipo de pergunta"></svg></div>
+      </div>
+      <div class="insight">“Qual é a senha da minha conta do SIA?” teve similaridade <b>0,70</b>, quase igual à da carteirinha (<b>0,72</b>). Um corte por similaridade não separaria essas perguntas. <b>Quem recusa é o modelo</b>, seguindo o prompt.</div>
+    </div>
+  </div>
+  <aside class="notas">Comparamos as duas políticas de contexto nas mesmas 11 perguntas, na mesma sessão. As duas recusaram corretamente as perguntas sem resposta. Mas o contexto amplo recusou a pergunta da média final, porque os trechos sobre CR confundiram o modelo. O focado não teve recusas indevidas, foi mais rápido nas perguntas com resposta e enviou menos da metade dos trechos. Parte da diferença de tempo vem da primeira chamada do amplo, que demorou 15 segundos. À direita, a similaridade do primeiro trecho: perguntas sobre dados pessoais chegam a 0,70, como as perguntas com resposta. Então não dá para recusar só por similaridade; quem recusa é o modelo.</aside>
+</section>
+
+<!-- 10. ERROS -->
+<section class="slide" data-tempo="0:50">
+  <p class="rotulo">Onde ainda erra</p>
+  <h2>Dois erros que se repetiram na v1 e na v2</h2>
+  <p class="sub" style="font-size:15px;margin-top:6px">v1: protótipo inicial · v2: versão final, com a nova interface. Mesma base, mesma busca e mesmo modelo.</p>
+  <div class="corpo" style="grid-template-rows:1fr auto;gap:16px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+      <div class="cartao erro">
+        <h3><span class="pilula vermelho">Recusa indevida</span> “Como eu tranco uma matéria?”</h3>
+        <dl class="par">
+          <dt>Resposta</dt><dd>“Não encontrei informação suficiente…”</dd>
+          <dt>Na base</dt><dd>Existe como <b>“exclusão de disciplina”</b>, feita no RENOVA (Manual, p. 42). “Como excluo uma disciplina?” é respondida corretamente.</dd>
+          <dt>Recuperado</dt><dd>1º colocado na v2: <b>reabertura de matrícula</b> (Manual, p. 39).</dd>
+          <dt>Causa</dt><dd><b>Vocabulário:</b> “trancar” aproxima a pergunta do trancamento de matrícula, não da exclusão de disciplina.</dd>
+          <dt>Caminho</dt><dd>Expansão da pergunta com sinônimos ou busca híbrida (semântica + palavras-chave).</dd>
+        </dl>
+      </div>
+      <div class="cartao erro">
+        <h3><span class="pilula ambar">Fora do alvo</span> “Como eu consulto minhas horas AAC?”</h3>
+        <dl class="par">
+          <dt>Resposta</dt><dd>Regra do estágio como AAC Externa, que não responde à pergunta.</dd>
+          <dt>Na base</dt><dd>Explica como <b>lançar</b> horas, mas não encontramos como <b>consultar</b> as já registradas.</dd>
+          <dt>Recuperado</dt><dd>1 trecho do Guia do Calouro, p. 29, sobre estágio como AAC Externa.</dd>
+          <dt>Causa</dt><dd>Faltou recusar. No contexto amplo, o modelo ainda apresentou o lançamento de horas como se fosse consulta.</dd>
+          <dt>Caminho</dt><dd>Verificar se a resposta atende à pergunta, e não só se está apoiada no trecho.</dd>
+        </dl>
+      </div>
+    </div>
+    <div class="limites">
+      <div class="cartao"><b>Sem memória</b><p>Cada pergunta é processada sozinha, mesmo com o histórico na tela.</p></div>
+      <div class="cartao"><b>Fonte ≠ verificação</b><p>O painel mostra o que o modelo leu, não confere cada afirmação.</p></div>
+      <div class="cartao"><b>Vigência</b><p>A curadoria não confirma se todas as regras estão em vigor hoje.</p></div>
+      <div class="cartao"><b>Contexto focado</b><p>Pode descartar evidências que estão em outra página.</p></div>
+    </div>
+  </div>
+  <aside class="notas">Dois erros se repetiram nas duas versões, a v1 e a v2. Em “como tranco uma matéria”, o sistema recusou, mas a informação existe como “exclusão de disciplina”: é um problema de vocabulário na busca. Em “como consulto minhas horas AAC”, a base não explica a consulta, e o modelo deveria ter recusado; em vez disso, respondeu com uma regra vizinha. Além disso, o sistema não tem memória de conversa, o painel de fontes não verifica cada afirmação e a curadoria não confirma a vigência das regras.</aside>
+</section>
+
+<!-- 11. CONCLUSÃO -->
+<section class="slide escuro" data-tempo="0:30">
+  <p class="rotulo">Conclusão</p>
+  <h2>O protótipo responde, cita e recusa. O próximo passo é a linguagem do aluno.</h2>
+  <div class="corpo grade-final">
+    <div class="lista-final">
+      <div class="item-final"><div class="n">1</div><div><b>A curadoria pesou tanto quanto o modelo</b><span>41 exclusões documentadas e uma página recuperada parcialmente para resolver a média final.</span></div></div>
+      <div class="item-final"><div class="n">2</div><div><b>Menos contexto pode ser melhor</b><span>O contexto focado eliminou a recusa indevida da média final e reduziu o tempo de resposta.</span></div></div>
+      <div class="item-final"><div class="n">3</div><div><b>Medir por etapa mostra onde está o erro</b><span>Busca, contexto e geração falham por motivos diferentes, como mostram os dois casos pendentes.</span></div></div>
+      <div class="obrigado"><img src="assets/mascote_falaibmec.png" alt=""><div><b>Obrigado!</b><p style="color:#bcd2ee;font-size:15px;margin-top:4px">Perguntas?</p></div></div>
+    </div>
+    <div class="proximos" style="align-self:start">
+      <h3>Próximos passos</h3>
+      <ul style="margin:0;padding-left:20px">
+        <li>Busca híbrida e expansão da pergunta com sinônimos, para o caso “trancar × excluir”</li>
+        <li>Avaliação com perguntas reais de alunos, independentes dos ajustes, e revisão humana</li>
+        <li>Verificação automática de sustentação de cada afirmação</li>
+        <li>Histórico de conversa e uso do NER como filtro, quando estiver confiável</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="notas">Para fechar: a curadoria pesou tanto quanto o modelo; menos contexto foi melhor no nosso caso; e medir cada etapa separadamente mostrou onde está cada erro. O próximo passo é lidar com a linguagem do aluno, com busca híbrida e sinônimos, e avaliar com perguntas reais e revisão humana. Obrigado, ficamos à disposição para perguntas.</aside>
+</section>
+
+</div>
+
+<div id="barra"></div>
+<div id="contador"></div>
+<div id="cronometro">00:00</div>
+<div id="notas"></div>
+<div id="ajuda">→ avançar · ← voltar · F tela cheia · N notas · T cronômetro</div>
+<div id="dica"></div>
+
+<script>
+// ---------- Dados (copiados dos arquivos de resultados do projeto) ----------
+const DADOS = {
+  curadoria: [
+    { rotulo: "Extraídos", valor: 130, detalhe: "4 PDFs e 14 páginas HTML" },
+    { rotulo: "Corpus v1", valor: 122, detalhe: "12 fontes · 8 exclusões" },
+    { rotulo: "Corpus v2", valor: 101, detalhe: "11 fontes · 29 exclusões" },
+    { rotulo: "Corpus v3", valor: 89, detalhe: "9 fontes · 41 exclusões" },
+  ],
+  motivos: [
+    { rotulo: "Capas e divisórias", valor: 14 },
+    { rotulo: "Contatos sem atualidade confirmada", valor: 12 },
+    { rotulo: "Fonte fora da versão inicial", valor: 6 },
+    { rotulo: "Sumários", valor: 4 },
+    { rotulo: "Divergência sobre a AS", valor: 2 },
+    { rotulo: "Sem texto extraível", valor: 2 },
+    { rotulo: "Redundante", valor: 1 },
+  ],
+  ner: [
+    { metrica: "Precisão", v1: 0.8182, v2: 0.9 },
+    { metrica: "Revocação", v1: 1.0, v2: 1.0 },
+    { metrica: "F1", v1: 0.9, v2: 0.9474 },
+  ],
+  tempoPiloto: [
+    { id: "a01", rotulo: "Carteirinha", s: 8.02, tipo: "resp" },
+    { id: "a02", rotulo: "O que são AAC", s: 9.08, tipo: "resp" },
+    { id: "a03", rotulo: "Nota final", s: 2.80, tipo: "resp" },
+    { id: "a04", rotulo: "Estágio no SIA", s: 8.50, tipo: "resp" },
+    { id: "a05", rotulo: "Capital da França", s: 1.20, tipo: "sem" },
+    { id: "a06", rotulo: "Minha nota na AP1", s: 1.30, tipo: "sem" },
+    { id: "a07", rotulo: "Minha senha do SIA", s: 1.30, tipo: "sem" },
+    { id: "a08", rotulo: "Meu requerimento", s: 1.30, tipo: "sem" },
+  ],
+  amplo: [
+    { medida: "Recusas indevidas", unidade: "das 4 com resposta", amplo: 1, focado: 0, max: 4, fmt: v => `${v}/4` },
+    { medida: "Tempo médio por pergunta", unidade: "segundos, nas 4 perguntas com resposta", amplo: 9.32, focado: 6.68, max: 10, fmt: v => `${v.toFixed(1).replace(".", ",")} s` },
+    { medida: "Trechos enviados por pergunta", unidade: "média nas 11 perguntas", amplo: 3.0, focado: 1.36, max: 3.2, fmt: v => v.toFixed(2).replace(".", ",") },
+  ],
+  similaridade: [
+    { rotulo: "Carteirinha", v: 0.717, tipo: "resp" },
+    { rotulo: "O que são AAC", v: 0.792, tipo: "resp" },
+    { rotulo: "Nota final", v: 0.744, tipo: "resp" },
+    { rotulo: "Estágio no SIA", v: 0.870, tipo: "resp" },
+    { rotulo: "Minha nota na AP1", v: 0.530, tipo: "pessoal" },
+    { rotulo: "Minha senha do SIA", v: 0.695, tipo: "pessoal" },
+    { rotulo: "Meu requerimento de estágio", v: 0.649, tipo: "pessoal" },
+    { rotulo: "Capital da França", v: 0.381, tipo: "fora" },
+  ],
+};
+const COR = { azul: "#1c64d8", ambar: "#c98a0b", violeta: "#8a4fd1", grade: "#e4ebf5", tinta: "#173354", tinta2: "#4f6785", tinta3: "#7b8da5", superficie: "#ffffff" };
+const pct = v => `${(v * 100).toFixed(1).replace(".", ",")}%`;
+
+// ---------- Utilidades de SVG ----------
+const NS = "http://www.w3.org/2000/svg";
+function el(nome, attrs = {}, pai) {
+  const e = document.createElementNS(NS, nome);
+  for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+  if (pai) pai.appendChild(e);
+  return e;
+}
+function texto(pai, x, y, conteudo, attrs = {}) {
+  const t = el("text", { x, y, "font-size": 13, fill: COR.tinta2, ...attrs }, pai);
+  t.textContent = conteudo;
+  return t;
+}
+// Barra com só a ponta arredondada (4px), ancorada na linha de base
+function barraH(pai, x, y, w, h, cor, r = 4) {
+  r = Math.min(r, w, h / 2);
+  const d = `M${x},${y} H${x + w - r} Q${x + w},${y} ${x + w},${y + r} V${y + h - r} Q${x + w},${y + h} ${x + w - r},${y + h} H${x} Z`;
+  return el("path", { d, fill: cor }, pai);
+}
+function barraV(pai, x, y, w, h, cor, r = 4) {
+  r = Math.min(r, h, w / 2);
+  const d = `M${x},${y + h} V${y + r} Q${x},${y} ${x + r},${y} H${x + w - r} Q${x + w},${y} ${x + w},${y + r} V${y + h} Z`;
+  return el("path", { d, fill: cor }, pai);
+}
+const dica = document.getElementById("dica");
+function comDica(alvo, conteudo) {
+  alvo.style.cursor = "default";
+  alvo.addEventListener("mousemove", e => { dica.innerHTML = conteudo; dica.style.opacity = 1; dica.style.left = (e.clientX + 14) + "px"; dica.style.top = (e.clientY + 14) + "px"; });
+  alvo.addEventListener("mouseleave", () => { dica.style.opacity = 0; });
+}
+function preparar(svg) {
+  svg.innerHTML = "";
+  const r = svg.getBoundingClientRect();
+  const escala = parseFloat(document.getElementById("palco").dataset.escala || 1);
+  const w = Math.max(200, r.width / escala), h = Math.max(120, r.height / escala);
+  svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+  return { w, h };
+}
+
+// ---------- Gráficos ----------
+function graficoCuradoria() {
+  const svg = document.getElementById("g-curadoria"); const { w, h } = preparar(svg);
+  const m = { e: 92, d: 70, t: 12, b: 10 }, n = DADOS.curadoria.length;
+  const banda = (h - m.t - m.b) / n, bh = Math.min(46, banda * 0.62);
+  const escala = v => (w - m.e - m.d) * v / 130;
+  DADOS.curadoria.forEach((d, i) => {
+    const y = m.t + i * banda + (banda - bh) / 2;
+    texto(svg, m.e - 12, y + bh / 2 + 5, d.rotulo, { "text-anchor": "end", "font-weight": 700, fill: COR.tinta });
+    const b = barraH(svg, m.e, y, escala(d.valor), bh, i === n - 1 ? COR.azul : "#9cc1f3");
+    texto(svg, m.e + escala(d.valor) + 10, y + bh / 2 - 2, String(d.valor), { "font-size": 20, "font-weight": 800, fill: COR.tinta });
+    texto(svg, m.e + escala(d.valor) + 10, y + bh / 2 + 15, d.detalhe.split(" · ")[1] || "", { "font-size": 11.5, fill: COR.tinta3 });
+    const alvo = el("rect", { x: m.e, y: y - 4, width: w - m.e - m.d, height: bh + 8, fill: "transparent" }, svg);
+    comDica(alvo, `<b>${d.rotulo}: ${d.valor} registros</b><br>${d.detalhe}`);
+  });
+  el("line", { x1: m.e, x2: m.e, y1: m.t, y2: h - m.b, stroke: COR.tinta3, "stroke-width": 1 }, svg);
+}
+function graficoMotivos() {
+  const svg = document.getElementById("g-motivos"); const { w, h } = preparar(svg);
+  const m = { e: 230, d: 30 }, n = DADOS.motivos.length, banda = h / n, bh = Math.min(16, banda * 0.6);
+  const escala = v => (w - m.e - m.d) * v / 14;
+  DADOS.motivos.forEach((d, i) => {
+    const y = i * banda + (banda - bh) / 2;
+    texto(svg, m.e - 10, y + bh / 2 + 4.5, d.rotulo, { "text-anchor": "end", "font-size": 12.5, fill: COR.tinta });
+    barraH(svg, m.e, y, escala(d.valor), bh, d.rotulo.startsWith("Divergência") ? COR.ambar : COR.azul);
+    texto(svg, m.e + escala(d.valor) + 7, y + bh / 2 + 4.5, String(d.valor), { "font-size": 12.5, "font-weight": 800, fill: COR.tinta });
+    const alvo = el("rect", { x: 0, y: i * banda, width: w, height: banda, fill: "transparent" }, svg);
+    comDica(alvo, `<b>${d.rotulo}</b><br>${d.valor} de 41 exclusões`);
+  });
+}
+function graficoNer() {
+  const svg = document.getElementById("g-ner"); const { w, h } = preparar(svg);
+  const m = { e: 44, d: 10, t: 26, b: 34 }, n = DADOS.ner.length;
+  const grupo = (w - m.e - m.d) / n, bw = Math.min(58, grupo * 0.3), gap = 2;
+  const y0 = v => m.t + (h - m.t - m.b) * (1 - (v - 0.5) / 0.5); // eixo de 50% a 100%
+  [0.5, 0.75, 1].forEach(v => {
+    el("line", { x1: m.e, x2: w - m.d, y1: y0(v), y2: y0(v), stroke: COR.grade }, svg);
+    texto(svg, m.e - 8, y0(v) + 4, `${v * 100}%`, { "text-anchor": "end", "font-size": 11.5, fill: COR.tinta3 });
+  });
+  DADOS.ner.forEach((d, i) => {
+    const cx = m.e + grupo * i + grupo / 2;
+    [["v1", COR.ambar, -1], ["v2", COR.azul, 1]].forEach(([k, cor, lado]) => {
+      const x = lado < 0 ? cx - bw - gap / 2 : cx + gap / 2, top = y0(d[k]);
+      barraV(svg, x, top, bw, y0(0.5) - top, cor);
+      texto(svg, x + bw / 2, top - 8, pct(d[k]), { "text-anchor": "middle", "font-size": 13, "font-weight": 800, fill: COR.tinta });
+      const alvo = el("rect", { x: x - 4, y: m.t - 20, width: bw + 8, height: y0(0.5) - m.t + 20, fill: "transparent" }, svg);
+      comDica(alvo, `<b>${d.metrica} · ${k}</b><br>${pct(d[k])}`);
+    });
+    texto(svg, cx, h - 10, d.metrica, { "text-anchor": "middle", "font-size": 14, "font-weight": 700, fill: COR.tinta });
+  });
+  el("line", { x1: m.e, x2: w - m.d, y1: y0(0.5), y2: y0(0.5), stroke: COR.tinta3 }, svg);
+  texto(svg, w - m.d, m.t - 12, "eixo a partir de 50%", { "text-anchor": "end", "font-size": 11, fill: COR.tinta3 });
+}
+function graficoTempo() {
+  const svg = document.getElementById("g-tempo"); const { w, h } = preparar(svg);
+  const m = { e: 132, d: 46, t: 4, b: 4 }, n = DADOS.tempoPiloto.length, banda = (h - m.t - m.b) / n, bh = Math.min(14, banda * 0.62);
+  const escala = v => (w - m.e - m.d) * v / 10;
+  DADOS.tempoPiloto.forEach((d, i) => {
+    const y = m.t + i * banda + (banda - bh) / 2, cor = d.tipo === "resp" ? COR.azul : COR.violeta;
+    texto(svg, m.e - 8, y + bh / 2 + 4, d.rotulo, { "text-anchor": "end", "font-size": 11.5, fill: COR.tinta });
+    barraH(svg, m.e, y, escala(d.s), bh, cor);
+    texto(svg, m.e + escala(d.s) + 6, y + bh / 2 + 4, `${d.s.toFixed(1).replace(".", ",")} s`, { "font-size": 11.5, "font-weight": 700, fill: COR.tinta });
+    const alvo = el("rect", { x: 0, y: m.t + i * banda, width: w, height: banda, fill: "transparent" }, svg);
+    comDica(alvo, `<b>${d.rotulo}</b> (${d.id})<br>${d.s.toFixed(2).replace(".", ",")} s · ${d.tipo === "resp" ? "com resposta" : "recusa"}`);
+  });
+  texto(svg, w - 4, h - 30, "respostas: média 7,1 s", { "text-anchor": "end", "font-size": 11.5, "font-weight": 700, fill: COR.azul });
+  texto(svg, w - 4, h - 14, "recusas: média 1,3 s", { "text-anchor": "end", "font-size": 11.5, "font-weight": 700, fill: COR.violeta });
+}
+function graficoAmplo() {
+  const svg = document.getElementById("g-amplo"); const { w, h } = preparar(svg);
+  const n = DADOS.amplo.length, bloco = h / n, m = { e: 8, d: 70 };
+  DADOS.amplo.forEach((d, i) => {
+    const y = i * bloco;
+    texto(svg, m.e, y + 20, d.medida, { "font-size": 14.5, "font-weight": 800, fill: COR.tinta });
+    texto(svg, m.e, y + 37, d.unidade, { "font-size": 11.5, fill: COR.tinta3 });
+    const bh = Math.min(20, (bloco - 58) / 2 - 2), escala = v => (w - m.e - m.d) * v / d.max;
+    [["amplo", COR.ambar, "Amplo"], ["focado", COR.azul, "Focado"]].forEach(([k, cor, nome], j) => {
+      const yy = y + 48 + j * (bh + 4);
+      el("rect", { x: m.e, y: yy, width: w - m.e - m.d, height: bh, fill: "#f2f6fb", rx: 4 }, svg);
+      if (d[k] > 0) barraH(svg, m.e, yy, Math.max(escala(d[k]), 3), bh, cor);
+      texto(svg, m.e + Math.max(escala(d[k]), 3) + 8, yy + bh / 2 + 5, d.fmt(d[k]), { "font-size": 14, "font-weight": 800, fill: COR.tinta });
+      const alvo = el("rect", { x: 0, y: yy - 2, width: w, height: bh + 4, fill: "transparent" }, svg);
+      comDica(alvo, `<b>${nome}</b> · ${d.medida}<br>${d.fmt(d[k])}`);
+    });
+  });
+}
+function graficoSimilaridade() {
+  const svg = document.getElementById("g-sim"); const { w, h } = preparar(svg);
+  const grupos = [["resp", "Com resposta", COR.azul], ["pessoal", "Dado pessoal", COR.violeta], ["fora", "Fora da base", COR.ambar]];
+  const m = { e: 104, d: 18, t: 6, b: 26 }, banda = (h - m.t - m.b) / grupos.length;
+  const x = v => m.e + (w - m.e - m.d) * (v - 0.3) / 0.6; // 0,30 a 0,90
+  [0.3, 0.45, 0.6, 0.75, 0.9].forEach(v => {
+    el("line", { x1: x(v), x2: x(v), y1: m.t, y2: h - m.b, stroke: COR.grade }, svg);
+    texto(svg, x(v), h - 8, v.toFixed(2).replace(".", ","), { "text-anchor": "middle", "font-size": 11.5, fill: COR.tinta3 });
+  });
+  // faixa das respostas
+  const resp = DADOS.similaridade.filter(d => d.tipo === "resp").map(d => d.v);
+  el("rect", { x: x(Math.min(...resp)), y: m.t, width: x(Math.max(...resp)) - x(Math.min(...resp)), height: h - m.t - m.b, fill: COR.azul, opacity: 0.07 }, svg);
+  grupos.forEach(([tipo, nome, cor], i) => {
+    const cy = m.t + banda * i + banda / 2;
+    texto(svg, m.e - 12, cy + 4.5, nome, { "text-anchor": "end", "font-size": 12.5, "font-weight": 700, fill: COR.tinta });
+    DADOS.similaridade.filter(d => d.tipo === tipo).forEach(d => {
+      const c = el("circle", { cx: x(d.v), cy, r: 7, fill: cor, stroke: COR.superficie, "stroke-width": 2 }, svg);
+      comDica(c, `<b>${d.rotulo}</b><br>similaridade ${d.v.toFixed(3).replace(".", ",")}`);
+      if (d.rotulo === "Minha senha do SIA") texto(svg, x(d.v), cy - 13, "senha 0,70", { "text-anchor": "middle", "font-size": 11.5, "font-weight": 700, fill: COR.tinta });
+      if (d.rotulo === "Carteirinha") texto(svg, x(d.v), cy - 13, "carteirinha 0,72", { "text-anchor": "middle", "font-size": 11.5, "font-weight": 700, fill: COR.tinta });
+      if (tipo === "fora") texto(svg, x(d.v) + 12, cy + 4, "capital da França 0,38", { "font-size": 11.5, fill: COR.tinta2 });
+    });
+  });
+}
+const graficos = [graficoCuradoria, graficoMotivos, graficoNer, graficoTempo, graficoAmplo, graficoSimilaridade];
+
+// ---------- Navegação ----------
+const palco = document.getElementById("palco");
+const slides = [...document.querySelectorAll(".slide")];
+const principais = slides.length;
+let atual = 0;
+try { const salvo = parseInt(location.hash.replace("#", ""), 10); if (salvo >= 1 && salvo <= slides.length) atual = salvo - 1; } catch (e) {}
+
+function ajustar() {
+  const s = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+  palco.style.transform = `translate(-50%, -50%) scale(${s})`;
+  palco.dataset.escala = s;
+}
+function desenharGraficos() {
+  // Desenha com o palco temporariamente visível para medir as caixas
+  slides.forEach(s => s.style.visibility = "visible");
+  graficos.forEach(f => { try { f(); } catch (e) { console.error(e); } });
+  slides.forEach(s => s.style.visibility = "");
+}
+function mostrar(i) {
+  atual = Math.max(0, Math.min(slides.length - 1, i));
+  slides.forEach((s, j) => s.classList.toggle("ativo", j === atual));
+  document.getElementById("barra").style.width = `${Math.min(1, (atual + 1) / principais) * 100}%`;
+  document.getElementById("contador").textContent = `${atual + 1} / ${principais}`;
+  const nota = slides[atual].querySelector("aside.notas");
+  document.getElementById("notas").innerHTML = `<span class="tempo">${slides[atual].dataset.tempo || ""}</span>${nota ? nota.innerHTML : ""}`;
+  const v = document.getElementById("video-demo");
+  if (slides[atual].dataset.video) { try { v.currentTime = 0; v.play(); } catch (e) {} } else { v.pause(); }
+  try { history.replaceState(null, "", `#${atual + 1}`); } catch (e) {}
+}
+
+// Cronômetro: começa ao avançar do primeiro slide; alerta aos 9 min, estoura aos 10
+let inicio = null, cronVisivel = false;
+function tic() {
+  const c = document.getElementById("cronometro");
+  if (inicio) {
+    const s = Math.floor((Date.now() - inicio) / 1000);
+    c.textContent = `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")} / 10:00`;
+    c.classList.toggle("alerta", s >= 540 && s < 600); c.classList.toggle("estourou", s >= 600);
+  }
+}
+setInterval(tic, 500);
+
+document.addEventListener("keydown", e => {
+  if (["ArrowRight", "PageDown", " ", "Enter"].includes(e.key)) { e.preventDefault(); if (!inicio && atual === 0) inicio = Date.now(); mostrar(atual + 1); }
+  else if (["ArrowLeft", "PageUp", "Backspace"].includes(e.key)) { e.preventDefault(); mostrar(atual - 1); }
+  else if (e.key === "Home") mostrar(0);
+  else if (e.key === "End") mostrar(principais - 1);
+  else if (e.key.toLowerCase() === "f") { if (!document.fullscreenElement) document.documentElement.requestFullscreen?.(); else document.exitFullscreen?.(); }
+  else if (e.key.toLowerCase() === "n") { const n = document.getElementById("notas"); n.style.display = n.style.display === "block" ? "none" : "block"; }
+  else if (e.key.toLowerCase() === "t") { cronVisivel = !cronVisivel; document.getElementById("cronometro").style.display = cronVisivel ? "block" : "none"; }
+  else if (e.key.toLowerCase() === "r") { inicio = null; document.getElementById("cronometro").textContent = "00:00"; }
+});
+document.addEventListener("click", e => {
+  if (e.target.closest("video, a, button, svg")) return;
+  if (!inicio && atual === 0) inicio = Date.now();
+  mostrar(e.clientX > window.innerWidth * 0.25 ? atual + 1 : atual - 1);
+});
+window.addEventListener("resize", () => { ajustar(); desenharGraficos(); });
+setTimeout(() => { document.getElementById("ajuda").style.opacity = 0; }, 6000);
+
+ajustar();
+mostrar(atual);
+const pronto = () => { desenharGraficos(); };
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(pronto); else window.addEventListener("load", pronto);
+window.addEventListener("load", pronto);
+</script>
+</body>
+</html>
