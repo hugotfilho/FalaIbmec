@@ -12,7 +12,13 @@ Implementamos a extração e curadoria, o NER por regras com filtros de contexto
 
 A versão usada na interface contém **280 trechos**, embeddings de **768 dimensões** com Serafim e geração com **Qwen2.5-7B-Instruct em 4 bits**. As fontes consultadas são mostradas com documento, página quando houver, link e trecho. O histórico visual ainda não é usado para interpretar a pergunta seguinte.
 
-Os resultados são pilotos de desenvolvimento. Há casos pendentes sobre exclusão de disciplina e consulta de horas AAC; consulte o [fechamento da etapa 3](reports/etapa3/resumo.md). Os notebooks 05 e 06 foram organizados como cópias de execução, sem saídas inventadas; os originais do Colab estão preservados em um ZIP local. O 05 integra e compara as políticas de contexto, e o 06 apresenta a interface. A organização passou em validação estrutural, mas ainda deve ser executada integralmente em uma sessão nova do Colab.
+Chamamos de **v1** o protótipo inicial e de **v2** a versão final. A v2 mudou apenas a interface: o painel de fontes passou a avisar quando a resposta é uma recusa, e entrou o mascote. A base, a busca e o modelo são os mesmos nas duas versões.
+
+- **Piloto da v1** (Kaggle, GPU T4, 8 perguntas: 4 com resposta e 4 sem): Recall@3, cobertura do contexto, respostas corretas, respostas sustentadas e recusas corretas ficaram em 4/4, sem recusas indevidas. O tempo médio foi de 4,18 s. As perguntas eram conhecidas durante os ajustes, e a revisão das respostas teve assistência de IA. Os números estão em [avaliacao_rag_v1](reports/avaliacao_rag_v1/metricas.csv).
+- **Comparação na v2** (Colab, GPU T4, 11 perguntas, uma execução por pergunta): o contexto amplo teve 1 recusa indevida em 4 perguntas com resposta (nota final), e o focado não teve nenhuma. O amplo enviou 3,0 trechos por pergunta, e o focado, 1,36. Só a recusa foi medida automaticamente; a correção das outras respostas não foi revisada. Os números estão em [comparacao_contexto_v2](reports/comparacao_contexto_v2/resultados.csv).
+- **Notebook 06** executado no Colab na v2, com a demonstração gravada. A cópia consolidada do 05 está no repositório sem saídas salvas.
+
+Os casos de trancamento e de consulta de horas AAC continuam com erro nas duas versões; consulte o [fechamento da etapa 3](reports/etapa3/resumo.md). Os originais do Colab estão preservados em um ZIP local. A [apresentação final](apresentacao/index.html) e o [roteiro](apresentacao/roteiro_e_perguntas.md) estão em `apresentacao/`.
 
 A entrega inicial reuniu a [proposta do projeto](reports/proposta.md) e o [experimento de NER](notebooks/03_ner.ipynb), conforme a adaptação de escopo autorizada pelo professor.
 
@@ -47,8 +53,8 @@ Os materiais originais e os textos processados são mantidos localmente e ignora
 | [02_revisao_corpus.ipynb](notebooks/02_revisao_corpus.ipynb) | Revisão das fontes, exclusões, sobreposições e consolidação do corpus. |
 | [03_ner.ipynb](notebooks/03_ner.ipynb) | Observação do modelo pré-treinado, regras, filtros de contexto, avaliação e reprodução. |
 | [04_preparacao_trechos.ipynb](notebooks/04_preparacao_trechos.ipynb) | Divisão em trechos, embeddings com Serafim, busca semântica e piloto de recuperação. |
-| [05_integracao_rag.ipynb](notebooks/05_integracao_rag.ipynb) | Integração e comparação de contexto amplo e focado, com base v3 e Qwen 7B em 4 bits. O original de desenvolvimento está preservado no backup. |
-| [06_interface_chatbot.ipynb](notebooks/06_interface_chatbot.ipynb) | Cópia organizada para carregar a base e modelos e abrir a interface. Os diagnósticos históricos permanecem no original preservado. |
+| [05_integracao_rag.ipynb](notebooks/05_integracao_rag.ipynb) | Integração do RAG com base v3 e Qwen 7B em 4 bits, e comparação de contexto amplo e focado. O original de desenvolvimento está preservado no backup. |
+| [06_interface_chatbot.ipynb](notebooks/06_interface_chatbot.ipynb) | Interface FalaIbmec (v2): carrega a base e os modelos e abre o chat, com painel de fontes e aviso de recusa. Os diagnósticos históricos permanecem no original preservado. |
 
 ## Experimento básico de NER
 
@@ -108,7 +114,7 @@ O ambiente observado está registrado em [requirements-colab.txt](requirements-c
 4. Execute as funções e a interface Gradio. O link de compartilhamento é temporário e depende da sessão ativa.
 5. Baixe os arquivos gerados e os notebooks antes de encerrar a sessão. Arquivos em `/content` não são persistentes.
 
-O notebook 05 organizado usa a base v3 e o Qwen 7B em 4 bits para comparar as duas políticas de contexto em cinco exemplos de desenvolvimento. A exportação cria uma pasta nova por execução e mantém a revisão humana como pendente. As tentativas com 1.5B e 3B e os diagnósticos antigos ficam no original preservado. Para abrir a interface diretamente, utilize o notebook 06.
+O notebook 05 organizado usa a base v3 e o Qwen 7B em 4 bits para integrar o RAG e comparar as duas políticas de contexto. A comparação registrada na v2 usou 11 perguntas: 4 com resposta, 4 sem resposta e os 3 casos pendentes. A exportação cria uma pasta nova por execução e mantém a revisão humana como pendente. As tentativas com 1.5B e 3B e os diagnósticos antigos ficam no original preservado. Para abrir a interface diretamente, utilize o notebook 06.
 
 Os [módulos do RAG e de fontes](src/README.md) foram exportados da sessão em funcionamento. Recebem os dados e modelos explicitamente; importá-los não carrega a LLM nem inicia a interface.
 
@@ -123,18 +129,17 @@ O NER permanece como experimento separado. Ainda não é usado como filtro da bu
 - **Busca semântica:** Serafim para português, vetores normalizados e produto escalar com NumPy.
 - **Contexto focado:** entre os três candidatos, selecionamos os que pertencem ao mesmo registro de origem do primeiro colocado. A política pode prejudicar perguntas que exigem fontes diferentes.
 - **Geração:** Qwen2.5-7B-Instruct, NF4 de 4 bits, sem amostragem e até 384 novos tokens.
-- **Interface:** Gradio, com fontes obtidas dos metadados, separadas do texto gerado. “Fontes consultadas” não comprova automaticamente a sustentação de cada afirmação.
-- **Avaliação:** o piloto de recuperação anterior, com a base de 279 trechos, obteve Recall@3 médio de 100% sobre as referências anotadas em quatro perguntas sintéticas. Uma quinta ficou sem referência naquela base. O gabarito não era exaustivo, e esse valor não deve ser atribuído à nova base ou ao chatbot como um todo. Os testes do RAG e seus erros estão documentados no fechamento da etapa 3.
+- **Interface:** Gradio, com fontes obtidas dos metadados, separadas do texto gerado. Na v2, o painel mostra quantos trechos foram enviados ao modelo e avisa quando a resposta é uma recusa. “Fontes consultadas” não comprova automaticamente a sustentação de cada afirmação.
+- **Avaliação:** o piloto de recuperação anterior, com a base de 279 trechos, obteve Recall@3 médio de 100% sobre as referências anotadas em quatro perguntas sintéticas. Uma quinta ficou sem referência naquela base. O gabarito não era exaustivo. O piloto do RAG completo (v1) e a comparação amplo × focado (v2) estão resumidos em [Estado atual](#estado-atual). Nenhum desses resultados deve ser atribuído ao chatbot como um todo. Os testes do RAG e seus erros estão documentados no fechamento da etapa 3.
 
 As entidades só deverão restringir a recuperação quando o reconhecimento e os metadados forem confiáveis. A análise de sentimentos e o treinamento de uma rede neural separada do zero não fazem parte do escopo aprovado.
 
 ## Próximas etapas
 
-1. Conferir os notebooks 05 e 06 organizados em uma sessão nova do Colab; a validação local não repetiu a inferência em GPU.
-2. Avaliar perguntas independentes das usadas nos ajustes, incluindo casos sem resposta e variações de vocabulário.
-3. Revisar os casos de trancamento de disciplina e consulta de horas AAC, distinguindo recuperação, contexto e geração.
-4. Comparar a política de contexto focado com alternativas e verificar a sustentação das respostas nas fontes.
-5. Finalizar relatório, avaliação e apresentação.
+1. Avaliar perguntas independentes das usadas nos ajustes, com revisão humana, incluindo casos sem resposta e variações de vocabulário. Uma rodada com 12 perguntas foi preparada, mas não executada.
+2. Corrigir o caso do trancamento, que é um problema de vocabulário: a base trata o assunto como “exclusão de disciplina”. Testar expansão da pergunta ou busca híbrida.
+3. Corrigir o caso das horas AAC: não encontramos trecho sobre a consulta das horas, e o modelo respondeu com uma regra de estágio em vez de recusar.
+4. Verificar a sustentação de cada afirmação nas fontes e comparar outros valores de k e políticas de contexto.
 
 ## Transparência e uso das fontes
 

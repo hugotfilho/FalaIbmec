@@ -38,4 +38,43 @@ Antes da seleção de contexto, a pergunta sobre nota final recebeu uma recusa m
 
 Foram conferidos o ZIP e as dez assinaturas do manifesto; os 280 IDs e suas posições no índice; as assinaturas dos textos; a matriz `(280, 768)`, seus valores finitos e a normalização dos vetores; a identidade do pacote de base aninhado; e a compilação dos módulos Python. A inferência da LLM não foi repetida no Mac.
 
-O registro integral `fechamento.json` e os pacotes com os textos processados permanecem locais, ignorados pelo Git. Os notebooks foram sincronizados a partir do Colab. O original do 05 terminava no modelo 3B e não continha o fluxo final; ele foi preservado no backup. A cópia de execução do 05 foi reorganizada com base v3, Qwen 7B e comparação de contexto em cinco exemplos conhecidos. Os resultados dessa nova execução ainda não foram gerados. O 06 também foi reorganizado, sem saídas inventadas; os originais do Colab e as cópias locais anteriores estão nos backups. As funções da cópia organizada correspondem às exportadas. A validação de formato, sintaxe e ordem não substitui uma nova execução integral com GPU no Colab. A exportação do 05 foi adicionalmente exercitada em uma pasta temporária com um registro de teste e sem LLM: os arquivos JSON e ZIP foram conferidos e duas execuções criaram destinos diferentes, sem sobrescrever os anteriores.
+O registro integral `fechamento.json` e os pacotes com os textos processados permanecem locais, ignorados pelo Git. Os notebooks foram sincronizados a partir do Colab. O original do 05 terminava no modelo 3B e não continha o fluxo final; ele foi preservado no backup. A cópia de execução do 05 foi reorganizada com base v3, Qwen 7B e comparação de contexto. Na data desta exportação, os resultados ainda não tinham sido gerados; veja a atualização posterior ao final. O 06 também foi reorganizado, sem saídas inventadas; os originais do Colab e as cópias locais anteriores estão nos backups. As funções da cópia organizada correspondem às exportadas. A validação de formato, sintaxe e ordem não substitui uma nova execução integral com GPU no Colab. A exportação do 05 foi adicionalmente exercitada em uma pasta temporária com um registro de teste e sem LLM: os arquivos JSON e ZIP foram conferidos e duas execuções criaram destinos diferentes, sem sobrescrever os anteriores.
+
+## Atualização posterior: piloto (v1) e versão final (v2)
+
+Chamamos de v1 o protótipo inicial, em que rodaram as interações acima e o piloto. A v2 é a versão final, com a interface nova. Base, busca, contexto focado e modelo são os mesmos nas duas.
+
+### Piloto da v1
+
+Executado no Kaggle, em GPU T4, com 8 perguntas de desenvolvimento: 4 com resposta e 4 sem. A assinatura da base foi conferida.
+
+| Métrica | Resultado |
+| --- | ---: |
+| Recall@3 | 4/4 |
+| Cobertura do contexto | 4/4 |
+| Respostas corretas | 4/4 |
+| Respostas sustentadas | 4/4 |
+| Recusas corretas | 4/4 |
+| Recusas indevidas | 0/4 |
+| Tempo médio | 4,18 s |
+| Tempo mediano | 2,03 s |
+
+A revisão de correção e sustentação teve assistência de IA, com critérios escritos antes da execução. Não houve revisão humana independente. Arquivo: [metricas.csv](../avaliacao_rag_v1/metricas.csv).
+
+### Comparação amplo × focado na v2
+
+Executada no Colab, em GPU T4, com 11 perguntas e uma execução por pergunta e política. Eram 4 perguntas com resposta, 4 sem resposta e os 3 casos pendentes. A recusa foi detectada pelo texto; a correção das demais respostas não foi revisada.
+
+| | Amplo (top 3) | Focado |
+| --- | ---: | ---: |
+| Recusas indevidas (4 com resposta) | 1/4 (nota final) | 0/4 |
+| Recusas corretas (4 sem resposta) | 4/4 | 4/4 |
+| Tempo médio, perguntas com resposta | 9,32 s | 6,68 s |
+| Trechos enviados por pergunta | 3,0 | 1,36 |
+
+A primeira chamada do amplo levou 15,2 s. Sem ela, a diferença de tempo nas perguntas com resposta cai para cerca de 0,9 s. Arquivo: [resultados.csv](../comparacao_contexto_v2/resultados.csv), sem as respostas geradas.
+
+### Casos pendentes na v2
+
+- **Trancamento:** recusado nas duas políticas. O primeiro candidato foi `r029_t001`, sobre reabertura de matrícula. O assunto aparece na base como exclusão de disciplina (`r032_t003`), e “Como excluo uma disciplina?” foi respondida nas duas políticas. O problema está no vocabulário da busca.
+- **Horas AAC:** o focado respondeu com a regra de aproveitamento de horas de estágio (`r062_t003`). O amplo descreveu o lançamento das horas como se fosse a consulta. Numa busca por palavras-chave, que não é exaustiva, não encontramos trecho sobre a consulta. O esperado seria uma recusa.

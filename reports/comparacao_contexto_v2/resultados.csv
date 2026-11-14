@@ -1,0 +1,23 @@
+id;pergunta;politica;respondivel;n_trechos;trechos_contexto;cobertura_contexto;recusou_auto;segundos
+a01;Como solicitar a carteirinha de estudante?;amplo_top3;True;3;r029_t002 r085_t007 r085_t008;1.0;False;15.227
+a01;Como solicitar a carteirinha de estudante?;focado;True;2;r085_t007 r085_t008;1.0;False;7.343
+a02;O que são atividades acadêmicas complementares?;amplo_top3;True;3;r021_t002 r061_t001 r062_t001;1.0;False;9.649
+a02;O que são atividades acadêmicas complementares?;focado;True;1;r061_t001;1.0;False;8.444
+a03;Como é calculada a nota final?;amplo_top3;True;3;r022_t005 r022_t006 r090_t001;1.0;True;1.385
+a03;Como é calculada a nota final?;focado;True;1;r090_t001;1.0;False;2.409
+a04;Como enviar a documentação de estágio pelo SIA?;amplo_top3;True;3;r086_t001 r086_t003 r086_t004;1.0;False;11.021
+a04;Como enviar a documentação de estágio pelo SIA?;focado;True;3;r086_t001 r086_t003 r086_t004;1.0;False;8.508
+a05;Qual é a capital da França?;amplo_top3;False;3;r043_t001 r048_t001 r088_t001;;True;1.414
+a05;Qual é a capital da França?;focado;False;1;r043_t001;;True;1.146
+a06;Qual foi a minha nota na AP1 ontem?;amplo_top3;False;3;r033_t001 r083_t002 r090_t001;;True;1.421
+a06;Qual foi a minha nota na AP1 ontem?;focado;False;1;r090_t001;;True;1.268
+a07;Qual é a senha atual da minha conta do SIA?;amplo_top3;False;3;r006_t002 r055_t004 r085_t003;;True;1.402
+a07;Qual é a senha atual da minha conta do SIA?;focado;False;1;r085_t003;;True;1.425
+a08;Qual foi o resultado da minha solicitação de estágio enviada hoje?;amplo_top3;False;3;r020_t002 r086_t003 r087_t004;;True;1.69
+a08;Qual foi o resultado da minha solicitação de estágio enviada hoje?;focado;False;1;r086_t003;;True;1.287
+p01;Como eu tranco uma matéria?;amplo_top3;;3;r029_t001 r033_t001 r037_t005;;True;1.35
+p01;Como eu tranco uma matéria?;focado;;1;r029_t001;;True;1.243
+p02;Como excluo uma disciplina?;amplo_top3;;3;r025_t001 r032_t001 r032_t003;;False;6.359
+p02;Como excluo uma disciplina?;focado;;2;r032_t001 r032_t003;;False;7.185
+p03;Como eu consulto minhas horas AAC?;amplo_top3;;3;r022_t001 r022_t002 r062_t003;;False;8.062
+p03;Como eu consulto minhas horas AAC?;focado;;1;r062_t003;;False;2.464
